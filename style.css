@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+/* Tech Canvas Background */
+canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  background: #000; /* dark background */
+}
+
+.overlay {
+  position: fixed;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 0;
+}
+
+/* Login container */
+.container {
+  position: relative;
+  z-index: 1;
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  width: 768px;
+  max-width: 100%;
+  min-height: 480px;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.container p {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  margin: 20px 0;
+}
+
+.container span {
+  font-size: 12px;
+}
+
+.container a {
+  color: #333;
+  font-size: 13px;
+  text-decoration: none;
+  margin: 15px 0 10px;
+  cursor: pointer;
+}
+
+.container button {
+  background : linear-gradient(to right, rgb(255, 238, 0), rgb(255, 136, 0));
+  color: #fff;
+  border-color: black;
+  border: 10%;
+  font-size: 12px;
+  padding: 10px 45px;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.container button.hidden {
+  background : linear-gradient(to right, rgb(0, 255, 191),rgb(0, 247, 255));
+  border-color: black;
+  color:black;
+}
+
+.container form {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  height: 100%;
+}
+
+.container input {
+  background-color: #eee;
+  border: 20%;
+  border-color: rgb(0, 0, 0);
+  margin: 8px 0;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 100%;
+  outline: none;
+}
+
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+}
+
+.sign-in {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.container.active .sign-in {
+  transform: translateX(100%);
+}
+
+.sign-up {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.container.active .sign-up {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: move 0.6s;
+}
+
+@keyframes move {
+  0%, 49.99% {
+      opacity: 0;
+      z-index: 1;
+  }
+  50%, 100% {
+      opacity: 1;
+      z-index: 5;
+  }
+}
+
+/* Social Icons */
+.social-icons {
+  margin: 20px 0;
+}
+
+.social-icons a {
+  border: 1px solid #ccc;
+  border-radius: 20%;
+  border-color: #000;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 3px;
+  width: 40px;
+  height: 40px;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+/* Universal hover effect */
+.social-icons a:hover {
+  background-color: #ffffff50;
+  color: #000;
+  border-color: #ffffff70;
+  transform: scale(1.1);
+}
+
+/* Platform-specific hover colors */
+.social-icons a.google:hover {
+  background-color: #db4437; /* Google Red */
+  color: #fff;
+}
+
+.social-icons a.facebook:hover {
+  background-color: #1877f2; /* Facebook Blue */
+  color: #fff;
+}
+
+.social-icons a.twitter:hover {
+  background-color: #1da1f2; /* Twitter Blue */
+  color: #fff;
+}
+
+/* Toggle container */
+.toggle-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.6s ease-in-out;
+  border-radius: 150px 0 0 100px;
+  z-index: 1000;
+}
+
+.container.active .toggle-container {
+  transform: translateX(-100%);
+  border-radius: 0 150px 100px 0;
+}
+
+.toggle {
+  background: linear-gradient(to right, rgb(0, 162, 255), rgb(0, 255, 170));
+  color: #000000;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: all 0.6s ease-in-out;
+}
+
+.container.active .toggle {
+  transform: translateX(50%);
+}
+
+.toggle-panel {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 30px;
+  text-align: center;
+  top: 0;
+  transform: translateX(0);
+  transition: all 0.6s ease-in-out;
+}
+
+.toggle-left {
+  transform: translateX(-200%);
+}
+
+.container.active .toggle-left {
+  transform: translateX(0);
+}
+
+.toggle-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container.active .toggle-right {
+  transform: translateX(200%);
+}
+
+/* RESET PASSWORD */
+.reset-password {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  background-color: #fff;
+}
+
+.container.show-reset .sign-in,
+.container.show-reset .sign-up,
+.container.show-reset .toggle-container {
+  display: none;
+}
+
+.container.show-reset .reset-password {
+  opacity: 1;
+  z-index: 5;
+}
+
+/* Back to Home Button */
+.home-nav-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 15px;
+  background-color: #ffffff20;
+  border: 1px solid #ffffff70;
+  border-radius: 8px;
+  color: #fcfcfc;
+  text-decoration: none;
+  font-weight: bold;
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.home-nav-button:hover {
+  background-color: #ffffff50;
+  color: #000;
+}
