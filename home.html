@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HandSpeak</title>
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <h1>HandSpeak 🖐🏻</h1>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="index.html" onclick="login()">Login</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Empowering Communication with <span>AI</span></h2>
+      <p>
+        HandSpeak bridges the gap between sign language and spoken words — enabling seamless interaction for the deaf and mute community.
+      </p>
+      <div class="hero-buttons">
+        <button class="start-btn" onclick="startCamera()">Start Translating</button>
+        <button class="stop-btn" onclick="stopCamera()">Stop Translating</button>
+      </div>
+    </div>
+    <div class="camera-box">
+      <video id="camera" autoplay muted></video>
+    </div>
+  </section>
+
+  <!-- Translation Box -->
+  <section class="translation">
+    <h3>Live Translation</h3>
+    <div class="translation-grid">
+      <div class="translation-box">
+        <h4>Sign Detected</h4>
+        <div id="gesture">🖐🏻 Gesture</div>
+      </div>
+      <div class="translation-box">
+        <h4>Converted Text</h4>
+        <div id="translatedText">Hello</div>
+      </div>
+      <div class="translation-box">
+        <h4>Speech Output</h4>
+        <div id="speechOutput">🔊 "Hello"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© <span id="year"></span> HandSpeak. Bridging Communication.</p>
+  </footer>
+
+  <script src="home.js"></script>
+</body>
+</html>
