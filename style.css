@@ -225,7 +225,6 @@ footer {
     font-weight: bold;
     color: #00fff2;
     margin-bottom: 3rem;
-    -webkit-text-stroke: 1px #ffffff;
 }
 
 .features-grid {
@@ -518,8 +517,7 @@ footer {
   text-align: center;
   margin-bottom: 30px;   /* Increase space below */
   font-size: 3rem;       /* Increase font size */
-  color: #00fff2;        /* Optional: match your theme */
-  -webkit-text-stroke: 1px #ffffff;  /* White border around text */
+  color: #ffffff;        /* Optional: match your theme */
 }
 
 .carousel .list {
@@ -573,3 +571,4 @@ footer {
 html {
     scroll-behavior: smooth;
 }
+
