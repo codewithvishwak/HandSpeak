@@ -14,7 +14,7 @@
   <header>
     <h1>HandSpeak ✋🏻</h1>
     <nav>
-      <a href="#tutorial">Tutorial</a>
+      <a class="how" style="color: red; cursor: pointer;">How to Use?</a>
       <a href="#features">Features</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -34,8 +34,15 @@
         <button class="stop-btn" onclick="stopCamera()">Stop Translating</button>
       </div>
     </div>
+
+    <!-- Camera Box -->
     <div class="camera-box">
       <video id="camera" autoplay muted playsinline></video>
+
+      <!-- Switch Camera Icon -->
+      <button id="switchCamera" class="switch-btn" title="Switch Camera">
+        <img src="rotate-camera.png" alt="Switch Camera">
+      </button>
     </div>
   </section>
 
@@ -58,36 +65,38 @@
     </div>
   </section>
 
-  <!-- Tutorial Section (Updated Carousel) -->
-  <section id="tutorial">
-    <h1 class="tutorial-title">Tutorial</h1>
+  <!-- Tutorial Popup Modal -->
+  <div id="tutorialModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeTutorial()">&times;</span>
+      <h1 class="tutorial-title">How to Use?</h1>
+      <div class="carousel">
+        <div class="list" id="slider">
+          <div class="item"><img src="Tutorial-Slides/HS1.png" alt="Slide 1"></div>
+          <div class="item"><img src="Tutorial-Slides/HS2.png" alt="Slide 2"></div>
+          <div class="item"><img src="Tutorial-Slides/HS3.png" alt="Slide 3"></div>
+          <div class="item"><img src="Tutorial-Slides/HS4.png" alt="Slide 4"></div>
+          <div class="item"><img src="Tutorial-Slides/HS5.png" alt="Slide 5"></div>
+          <div class="item"><img src="Tutorial-Slides/HS6.png" alt="Slide 6"></div>
+          <div class="item"><img src="Tutorial-Slides/HS7.png" alt="Slide 7"></div>
+          <div class="item"><img src="Tutorial-Slides/HS8.png" alt="Slide 8"></div>
+          <div class="item"><img src="Tutorial-Slides/HS9.png" alt="Slide 9"></div>
+        </div>
+      </div>
 
-    <div class="carousel">
-      <div class="list" id="slider">
-        <div class="item"><img src="image/HS1.png" alt="Slide 1"></div>
-        <div class="item"><img src="image/HS2.png" alt="Slide 2"></div>
-        <div class="item"><img src="image/HS3.png" alt="Slide 3"></div>
-        <div class="item"><img src="image/HS4.png" alt="Slide 4"></div>
-        <div class="item"><img src="image/HS5.png" alt="Slide 5"></div>
-        <div class="item"><img src="image/HS6.png" alt="Slide 6"></div>
-        <div class="item"><img src="image/HS7.png" alt="Slide 7"></div>
-        <div class="item"><img src="image/HS8.png" alt="Slide 8"></div>
-        <div class="item"><img src="image/HS9.png" alt="Slide 9"></div>
+      <div class="thumbnail" id="thumbnails">
+        <div class="item active"><img src="Tutorial-Slides/HS1.png" alt=""></div>
+        <div class="item"><img src="Tutorial-Slides/HS2.png" alt=""></div>
+        <div class="item"><img src="Tutorial-Slides/HS3.png" alt=""></div>
+        <div class="item"><img src="Tutorial-Slides/HS4.png" alt=""></div>
+        <div class="item"><img src="Tutorial-Slides/HS5.png" alt=""></div>
+        <div class="item"><img src="Tutorial-Slides/HS6.png" alt=""></div>
+        <div class="item"><img src="Tutorial-Slides/HS7.png" alt=""></div>
+        <div class="item"><img src="Tutorial-Slides/HS8.png" alt=""></div>
+        <div class="item"><img src="Tutorial-Slides/HS9.png" alt=""></div>
       </div>
     </div>
-
-    <div class="thumbnail" id="thumbnails">
-      <div class="item active"><img src="image/HS1.png" alt=""></div>
-      <div class="item"><img src="image/HS2.png" alt=""></div>
-      <div class="item"><img src="image/HS3.png" alt=""></div>
-      <div class="item"><img src="image/HS4.png" alt=""></div>
-      <div class="item"><img src="image/HS5.png" alt=""></div>
-      <div class="item"><img src="image/HS6.png" alt=""></div>
-      <div class="item"><img src="image/HS7.png" alt=""></div>
-      <div class="item"><img src="image/HS8.png" alt=""></div>
-      <div class="item"><img src="image/HS9.png" alt=""></div>
-    </div>
-  </section>
+  </div>
 
   <!-- Features Section -->
   <section id="features" class="features">
@@ -118,8 +127,8 @@
         <p>Ensures user data is protected and never shared without consent.</p>
       </div>
       <div class="feature-box">
-        <h4>📚 Learn Mode</h4>
-        <p>Interactive tutorials to help beginners learn and practice sign language.</p>
+      <h4>How to Use ❓</h4>
+      <p>Simply allow camera access, start translating, and follow the on-screen instructions to explore sign language.</p>
       </div>
       <div class="feature-box">
         <h4>🤝 Language Support</h4>
@@ -131,18 +140,24 @@
   <!-- About Section -->
   <section id="about" class="about">
     <div class="about-image">
-      <img src="image/HandSpeak.png" alt="HandSpeak in Action">
+      <img src="HandSpeak.png" alt="HandSpeak in Action">
     </div>
 
     <div class="about-intro">
       <p>
-HandSpeak is an innovative web application that bridges the communication gap between the deaf, hard of hearing, and those unfamiliar with sign language.
-<br><br>
-Harnessing cutting-edge gesture recognition technology, HandSpeak translates sign language into real-time text and converts it into natural, lifelike speech, making interactions effortless and seamless.
-<br><br>
-Our mission is to empower communication for all, breaking barriers and creating a world where every gesture speaks, every conversation matters, and no voice goes unheard.
-<br><br>
-With HandSpeak, technology meets empathy, ensuring accessibility is not just a feature, but an experience
+        HandSpeak is an innovative web application that bridges the communication gap between the deaf,
+        hard of hearing, and those unfamiliar with sign language.
+        <br><br>
+        Harnessing cutting-edge gesture recognition technology, 
+        HandSpeak translates sign language into real-time text and converts it into natural, 
+        lifelike speech, making interactions effortless and seamless.
+        <br><br>
+        Our mission is to empower communication for all, 
+        breaking barriers and creating a world where every gesture speaks, 
+        every conversation matters, and no voice goes unheard.
+        <br><br>
+        With HandSpeak, technology meets empathy, 
+        ensuring accessibility is not just a feature, but an experience
       </p>
     </div>
 
