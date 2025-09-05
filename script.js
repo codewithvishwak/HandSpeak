@@ -1,88 +1,177 @@
-// Footer Year
+// ---------------- Footer Year ----------------
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Camera Logic
+// ---------------- Tutorial Modal Logic ----------------
+const tutorialModal = document.getElementById("tutorialModal");
+const tutorialLink = document.querySelector('nav a[href="#tutorial"]');
+const slider = document.getElementById("slider");
+const thumbnails = document.querySelectorAll("#thumbnails .item");
+const carousel = document.querySelector(".carousel");
+
+let currentIndex = 0;
+
+// Open modal on page load
+window.onload = function () {
+  tutorialModal.style.display = "block";
+  updateCarousel();
+};
+
+// Close modal
+function closeTutorial() {
+  tutorialModal.style.display = "none";
+}
+
+// ---------------- How to Use? Button ----------------
+const howToUseBtn = document.querySelector(".how");
+
+// When "How to Use?" is clicked, open the tutorial modal
+howToUseBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  tutorialModal.style.display = "block";
+  updateCarousel();
+});
+
+// Close when clicking outside modal content
+window.addEventListener("click", function (e) {
+  if (e.target === tutorialModal) {
+    closeTutorial();
+  }
+});
+
+// Update carousel
+function updateCarousel() {
+  slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+  // Highlight active thumbnail
+  thumbnails.forEach((thumb, idx) => {
+    thumb.classList.toggle("active", idx === currentIndex);
+  });
+
+  // Adjust carousel height to match current image
+  const currentImg = slider.querySelectorAll("img")[currentIndex];
+  if (currentImg.complete) {
+    resizeCarousel(currentImg);
+  } else {
+    currentImg.onload = () => resizeCarousel(currentImg);
+  }
+}
+
+function resizeCarousel(img) {
+  carousel.style.height = img.height + "px";
+}
+
+// Thumbnail click
+thumbnails.forEach((thumb, idx) => {
+  thumb.addEventListener("click", () => {
+    currentIndex = idx;
+    updateCarousel();
+  });
+});
+
+// Keyboard navigation
+document.addEventListener("keydown", (e) => {
+  if (tutorialModal.style.display === "block") {
+    if (e.key === "ArrowRight") {
+      currentIndex = (currentIndex + 1) % thumbnails.length;
+      updateCarousel();
+    }
+    if (e.key === "ArrowLeft") {
+      currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+      updateCarousel();
+    }
+  }
+});
+
+// ---------------- Camera Logic ----------------
 let stream;
-function startCamera() {
+let usingBackCamera = false; // default to front camera
+
+async function startCamera() {
   const video = document.getElementById("camera");
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     alert("Your browser does not support camera access.");
     return;
   }
-  navigator.mediaDevices.getUserMedia({ video: true })
-    .then(s => { stream = s; video.srcObject = s; })
-    .catch(err => { alert("Camera access denied: " + err); });
+
+  try {
+    // request camera based on facingMode
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: usingBackCamera ? "environment" : "user" }
+    });
+    video.srcObject = stream;
+  } catch (err) {
+    console.error("Camera error:", err);
+    alert("Unable to access camera: " + err.message);
+  }
 }
 
 function stopCamera() {
   if (stream) {
     stream.getTracks().forEach(track => track.stop());
     stream = null;
+    document.getElementById("camera").srcObject = null;
   }
 }
 
-// 🌌 Main Galaxy Background
-const canvas = document.getElementById("backgroundCanvas");
-const ctx = canvas.getContext("2d");
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-const stars = Array.from({ length: 150 }, () => ({
-  x: Math.random() * canvas.width,
-  y: Math.random() * canvas.height,
-  radius: Math.random() * 1.5 + 0.5,
-  angle: Math.random() * Math.PI * 2,
-  speed: Math.random() * 0.002 + 0.001,
-  opacity: Math.random() * 0.6 + 0.2
-}));
-
-function animateGalaxy() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  stars.forEach(star => {
-    star.angle += star.speed;
-    star.x += Math.cos(star.angle) * 0.5;
-    star.y += Math.sin(star.angle) * 0.5;
-    if (star.x < 0) star.x = canvas.width;
-    if (star.x > canvas.width) star.x = 0;
-    if (star.y < 0) star.y = canvas.height;
-    if (star.y > canvas.height) star.y = 0;
-
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(0, 255, 242, ${star.opacity})`;
-    ctx.shadowColor = ctx.fillStyle;
-    ctx.shadowBlur = 8;
-    ctx.fill();
+// Switch camera button (front <-> back)
+const switchBtn = document.getElementById("switchCamera");
+if (switchBtn) {
+  switchBtn.addEventListener("click", () => {
+    usingBackCamera = !usingBackCamera;
+    stopCamera();
+    startCamera();
   });
-  requestAnimationFrame(animateGalaxy);
 }
-animateGalaxy();
 
-// Tutorial Carousel Logic
-const slider = document.getElementById("slider");
-const thumbnails = document.querySelectorAll("#thumbnails .item");
+// ---------------- Galaxy Background Animation ----------------
+function initGalaxy() {
+  const canvas = document.createElement("canvas");
+  canvas.id = "galaxyCanvas";
+  canvas.style.position = "fixed";
+  canvas.style.top = "0";
+  canvas.style.left = "0";
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  canvas.style.zIndex = "-1"; // behind everything
+  document.body.appendChild(canvas);
 
-thumbnails.forEach((thumb, idx) => {
-  thumb.addEventListener("click", () => {
-    slider.style.transform = `translateX(-${idx * 100}%)`;
-    thumbnails.forEach(t => t.classList.remove("active"));
-    thumb.classList.add("active");
-  });
-});
+  const ctx = canvas.getContext("2d");
+  let stars = [];
 
-// Optional: Keyboard Navigation
-document.addEventListener("keydown", (e) => {
-  let index = Array.from(thumbnails).findIndex(t => t.classList.contains("active"));
-  if(e.key === "ArrowRight") index++;
-  if(e.key === "ArrowLeft") index--;
-  if(index < 0) index = thumbnails.length - 1;
-  if(index >= thumbnails.length) index = 0;
-  slider.style.transform = `translateX(-${index * 100}%)`;
-  thumbnails.forEach(t => t.classList.remove("active"));
-  thumbnails[index].classList.add("active");
-});
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    stars = Array.from({ length: 200 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5,
+      dx: (Math.random() - 0.5) * 0.5,
+      dy: (Math.random() - 0.5) * 0.5
+    }));
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "cyan";
+    for (let s of stars) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+      s.x += s.dx;
+      s.y += s.dy;
+
+      // Wrap around edges
+      if (s.x < 0) s.x = canvas.width;
+      if (s.x > canvas.width) s.x = 0;
+      if (s.y < 0) s.y = canvas.height;
+      if (s.y > canvas.height) s.y = 0;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// Run galaxy animation once DOM is loaded
+document.addEventListener("DOMContentLoaded", initGalaxy);
