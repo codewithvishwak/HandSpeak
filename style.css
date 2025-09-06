@@ -137,6 +137,7 @@ nav a:hover {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: relative;
 }
 
 video {
@@ -149,8 +150,8 @@ video {
 /* ---------------- Switch Camera Button ---------------- */
 .switch-btn {
     position: absolute;
-    top: 180px;
-    right: 60px;
+    top: 15px;
+    right: 16px;
     background: none;
     border: none;
     cursor: pointer;
