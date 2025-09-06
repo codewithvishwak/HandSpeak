@@ -85,6 +85,7 @@ document.addEventListener("keydown", (e) => {
 // ---------------- Camera Logic ----------------
 let stream;
 let usingBackCamera = false; // default to front camera
+let cameraRunning = false;   // ✅ track if camera is running
 
 async function startCamera() {
   const video = document.getElementById("camera");
@@ -94,11 +95,11 @@ async function startCamera() {
   }
 
   try {
-    // request camera based on facingMode
     stream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: usingBackCamera ? "environment" : "user" }
     });
     video.srcObject = stream;
+    cameraRunning = true; // ✅ mark camera as running
   } catch (err) {
     console.error("Camera error:", err);
     alert("Unable to access camera: " + err.message);
@@ -111,15 +112,24 @@ function stopCamera() {
     stream = null;
     document.getElementById("camera").srcObject = null;
   }
+  cameraRunning = false; // ✅ mark as stopped
 }
 
 // Switch camera button (front <-> back)
 const switchBtn = document.getElementById("switchCamera");
 if (switchBtn) {
-  switchBtn.addEventListener("click", () => {
+  switchBtn.addEventListener("click", async () => {
+    if (!cameraRunning) {
+      alert("⚠️ Please start the camera first using 'Start Translating'.");
+      return;
+    }
+
+    // ✅ toggle between front & back
     usingBackCamera = !usingBackCamera;
+
+    // restart camera with new facingMode
     stopCamera();
-    startCamera();
+    await startCamera();
   });
 }
 
