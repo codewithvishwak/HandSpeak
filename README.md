@@ -2,6 +2,7 @@
 
 **SignToSpeak** is a web-based application designed to assist individuals with speech disabilities in communicating effectively through **sign language**.  
 By utilizing a webcam or touchscreen, users can input sign language gestures, which are then converted into **text** and the text into **speech output**.
+
 ---
 
 ## ✨ Features
