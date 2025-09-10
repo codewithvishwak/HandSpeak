@@ -2,11 +2,11 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: #000000;
     color: #ffffff;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: #000000;
 }
 
 #backgroundCanvas {
@@ -27,6 +27,22 @@ header {
     padding: 1rem 2rem;
     background: rgba(0, 0, 0, 0.85);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between logo and text */
+}
+
+.logo-img {
+  width: 60px;   /* adjust size */
+  height: 60px;
+  border-radius: 50%; /* makes it circular */
+  object-fit: cover;
+  border: 2px solid rgb(0, 0, 0); /* optional stylish border */
+  box-shadow: 0 0 8px #fff; /* glow effect */
 }
 
 header h1 {
