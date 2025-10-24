@@ -94,6 +94,6 @@ Inspired by the need for better communication tools for individuals with speech 
 
 ## 📬 Contact
 For any inquiries, suggestions, or feedback:
-- Email: yellamallivishwaak1@gmail.com  
+- Email: yellamallivishwak1@gmail.com  
 - GitHub: https://github.com/codewithvishwak
 - LinkedIn: www.linkedin.com/in/vishwak-yellamalli-a0686428b
