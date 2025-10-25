@@ -1,11 +1,17 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HandSpeak</title>
+  <title>HandSpeak - AI Sign Language Translator</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Oregano&family=Lavishly+Yours&family=Asimovian&family=Rubik+Marker+Hatch&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Background Canvas -->
@@ -14,97 +20,50 @@
   <!-- Navbar -->
   <header>
     <div class="logo-container">
-    <img src="image/Logo.png" alt="HandSpeak Logo" class="logo-img">
-    <h1>HandSpeak</h1>
+      <h1 style="font-family: 'Asimovian', sans-serif;">🖐🏻 HandSpeak</h1>
     </div>
     <nav>
-      <a class="how" style="color: red; font-family:Agrandir ;cursor: pointer;">How to Use?</a>
-      <a href="#features">Features</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a href="login.html">Login</a>
+      <a href="#detection" style="font-family: 'Asimovian', cursive; font-weight: 400; letter-spacing: 1px;">Detection</a>
+      <a href="#features" style="font-family: 'Asimovian', cursive; font-weight: 400; letter-spacing: 1px;">Features</a>
+      <a href="#about" style="font-family: 'Asimovian', cursive; font-weight: 400; letter-spacing: 1px;">About</a>
+      <a href="#contact" style="font-family: 'Asimovian', cursive; font-weight: 400; letter-spacing: 1px;">Contact</a>
+      <span id="userGreeting" class="user-greeting" style="font-family: 'Asimovian', sans-serif; font-size: 1.1rem; letter-spacing: 1px;"></span>
+      <button onclick="logout()" class="logout-btn">Logout</button>
     </nav>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="hero" id="detection">
     <div class="hero-text">
-      <h2>Empowering Communication with <span>HANDSPEAK ✊🏻</span></h2>
-      <p>
-        HandSpeak bridges the gap between sign language and spoken words — enabling seamless interaction for the deaf and mute community.
-      </p>
+      <h2>
+        <span style="font-family: 'Carol Twombly', cursive; font-weight: 400; letter-spacing: 1px; color: #FFFFFF;">Empowering Communication with</span> 
+        <span style="font-family: 'Rubik Marker Hatch', cursive; font-size: 1.2em; color: #FFD700;">HandSpeak ✊🏻</span>
+      </h2>
+
+      <p style="font-family: 'Apricots', cursive; font-weight: 400; letter-spacing: 0.5px;">HandSpeak bridges the gap between sign language and spoken words — enabling seamless interaction for the deaf and mute community.</p>
+      
       <div class="hero-buttons">
-        <button class="start-btn" onclick="startCamera()">Start Translating</button>
-        <button class="stop-btn" onclick="stopCamera()">Stop Translating</button>
+        <button class="start-btn" onclick="startCamera()">▶ Start Translating</button>
+        <button class="stop-btn" onclick="stopCamera()">⏹ Stop Translating</button>
       </div>
+      
+      <div id="cameraStatus" style="margin-top: 1rem; font-size: 1rem; color: #00fff2;"></div>
     </div>
 
     <!-- Camera Box -->
     <div class="camera-box">
       <video id="camera" autoplay muted playsinline></video>
 
-      <!-- Switch Camera Icon -->
-      <button id="switchCamera" class="switch-btn" title="Switch Camera">
+      <!-- Switch Camera Button -->
+      <button id="switchCamera" class="switch-btn" title="Switch Camera" onclick="switchCamera()">
         <img src="image/rotate-camera.png" alt="Switch Camera">
       </button>
     </div>
   </section>
 
-  <!-- Translation Box -->
-  <section class="translation">
-    <h3>Live Translation</h3>
-    <div class="translation-grid">
-      <div class="translation-box">
-        <h4>Sign Detected</h4>
-        <div id="gesture">🖐🏻 Gesture</div>
-      </div>
-      <div class="translation-box">
-        <h4>Converted Text</h4>
-        <div id="translatedText">Hello</div>
-      </div>
-      <div class="translation-box">
-        <h4>Speech Output</h4>
-        <div id="speechOutput">🔊 "Hello"</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tutorial Popup Modal -->
-  <div id="tutorialModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeTutorial()">&times;</span>
-      <h1 class="tutorial-title">How to Use?</h1>
-      <div class="carousel">
-        <div class="list" id="slider">
-          <div class="item"><img src="image/HS1.png" alt="Slide 1"></div>
-          <div class="item"><img src="image/HS2.png" alt="Slide 2"></div>
-          <div class="item"><img src="image/HS3.png" alt="Slide 3"></div>
-          <div class="item"><img src="image/HS4.png" alt="Slide 4"></div>
-          <div class="item"><img src="image/HS5.png" alt="Slide 5"></div>
-          <div class="item"><img src="image/HS6.png" alt="Slide 6"></div>
-          <div class="item"><img src="image/HS7.png" alt="Slide 7"></div>
-          <div class="item"><img src="image/HS8.png" alt="Slide 8"></div>
-          <div class="item"><img src="image/HS9.png" alt="Slide 9"></div>
-        </div>
-      </div>
-
-      <div class="thumbnail" id="thumbnails">
-        <div class="item active"><img src="Tutorial-Slides/HS1.png" alt=""></div>
-        <div class="item"><img src="image/HS2.png" alt=""></div>
-        <div class="item"><img src="image/HS3.png" alt=""></div>
-        <div class="item"><img src="image/HS4.png" alt=""></div>
-        <div class="item"><img src="image/HS5.png" alt=""></div>
-        <div class="item"><img src="image/HS6.png" alt=""></div>
-        <div class="item"><img src="image/HS7.png" alt=""></div>
-        <div class="item"><img src="image/HS8.png" alt=""></div>
-        <div class="item"><img src="image/HS9.png" alt=""></div>
-      </div>
-    </div>
-  </div>
-
   <!-- Features Section -->
   <section id="features" class="features">
-    <h3>Features</h3>
+    <h3 style="font-family: 'Asimovian', cursive; font-weight: 400; letter-spacing: 1px;">✨Features </h3>
     <div class="features-grid">
       <div class="feature-box">
         <h4>🎥 Real-time Camera Detection</h4>
@@ -131,8 +90,8 @@
         <p>Ensures user data is protected and never shared without consent.</p>
       </div>
       <div class="feature-box">
-      <h4>How to Use ❓</h4>
-      <p>Simply allow camera access, start translating, and follow the on-screen instructions to explore sign language.</p>
+        <h4>❓ How to Use</h4>
+        <p>Simply allow camera access, start translating, and follow the on-screen instructions to explore sign language.</p>
       </div>
       <div class="feature-box">
         <h4>🤝 Language Support</h4>
@@ -166,7 +125,7 @@
     </div>
 
     <div class="team">
-      <h4>Meet the Designers</h4>
+      <h4>👥 Meet the Designers</h4>
       <div class="team-grid">
         <div class="team-member">
           <h5>👨‍💻 Vishwak Yellamalli</h5>
@@ -190,13 +149,11 @@
 
   <!-- Contact Section -->
   <section id="contact" class="contact">
-    <div class="contact-intro">
-      <h3>Contact Us</h3>
-      <p>
-        Have questions, feedback, or ideas? We’d love to hear from you.  
-        Reach out to us and let’s build better communication together.
-      </p>
-    </div>
+    <h3>📞 Contact Us</h3>
+    <p>
+      Have questions, feedback, or ideas? We'd love to hear from you.  
+      Reach out to us and let's build better communication together.
+    </p>
 
     <div class="contact-grid">
       <div class="contact-info">
@@ -213,7 +170,7 @@
           <input type="text" placeholder="Your Name" required />
           <input type="email" placeholder="Your Email" required />
           <textarea placeholder="Your Message" rows="5" required></textarea>
-          <button type="submit">Send Message</button>
+          <button type="submit">📧 Send Message</button>
         </form>
       </div>
     </div>
@@ -221,211 +178,9 @@
 
   <!-- Footer -->
   <footer>
-    <p>© <span id="year"></span> HandSpeak. Bridging Communication.</p>
+    <p>© <span id="year"></span> HandSpeak. Bridging Communication Gaps. 🖐🏻</p>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
-
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HandSpeak - AI Sign Language Translator</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Oregano&family=Rubik+Marker+Hatch&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-</head>
-<body>
-  <!-- Background Canvas -->
-  <canvas id="backgroundCanvas"></canvas>
-
-  <!-- Navbar -->
-  <header>
-    <div class="logo-container">
-      <img src="Tutorial-Slides/Logo.png" alt="HandSpeak Logo" class="logo-img">
-      <h1 style="font-family: 'Asimovian', sans-serif;">HandSpeak</h1>
-    </div>
-    <nav>
-      <a href="#features">Features</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <button onclick="logout()" style=" background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 166, 0));; padding: 0.5rem 1rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: 600;">Logout</button>
-    </nav>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-text">
-      <h2><span style="font-family: 'Caveat Brush', cursive; font-weight: 400; letter-spacing: 1px; color: #FFFFFF;">Empowering Communication with</span> 
-        <span style="font-family: 'Rubik Marker Hatch', cursive; font-size: 1.2em; color: #FFD700;">HandSpeak✊🏻</span></h2>
-
-      <p style="font-family: 'Lavishly Yours', cursive;font-weight: 400;letter-spacing: 0.5px;">HandSpeak bridges the gap between sign language and spoken words — enabling seamless interaction for the deaf and mute community.</p>
-      <div class="hero-buttons">
-        <button class="start-btn" onclick="startCamera()">Start Translating</button>
-        <button class="stop-btn" onclick="stopCamera()">Stop Translating</button>
-      </div>
-    </div>
-
-    <!-- Camera Box -->
-    <div class="camera-box">
-      <video id="camera" autoplay muted playsinline></video>
-
-      <!-- Switch Camera Icon -->
-      <button id="switchCamera" class="switch-btn" title="Switch Camera">
-        <img src="Tutorial-Slides/rotate-camera.png" alt="Switch Camera">
-      </button>
-    </div>
-  </section>
-
-  <!-- Translation Box
-  <section class="translation">
-    <h3>Live Translation</h3>
-    <div class="translation-grid">
-      <div class="translation-box">
-        <h4>Sign Detected</h4>
-        <div id="gesture">🖐🏻 Gesture</div>
-      </div>
-      <div class="translation-box">
-        <h4>Converted Text</h4>
-        <div id="translatedText">Hello</div>
-      </div>
-      <div class="translation-box">
-        <h4>Speech Output</h4>
-        <div id="speechOutput">🔊 "Hello"</div>
-      </div>
-    </div>
-  </section> -->
-
-  <!-- Features Section -->
-  <section id="features" class="features">
-    <h3>Features</h3>
-    <div class="features-grid">
-      <div class="feature-box">
-        <h4>🎥 Real-time Camera Detection</h4>
-        <p>Instantly recognizes hand signs through your camera with AI-powered accuracy.</p>
-      </div>
-      <div class="feature-box">
-        <h4>💬 Text Conversion</h4>
-        <p>Converts hand gestures into clear and readable text instantly.</p>
-      </div>
-      <div class="feature-box">
-        <h4>🔊 Speech Output</h4>
-        <p>Generates natural voice output to make conversations seamless.</p>
-      </div>
-      <div class="feature-box">
-        <h4>🌐 Accessibility</h4>
-        <p>Designed for inclusivity, making communication easier worldwide.</p>
-      </div>
-      <div class="feature-box">
-        <h4>⚡ Fast & Lightweight</h4>
-        <p>Optimized performance to work smoothly across devices without lag.</p>
-      </div>
-      <div class="feature-box">
-        <h4>🔒 Secure & Private</h4>
-        <p>Ensures user data is protected and never shared without consent.</p>
-      </div>
-      <div class="feature-box">
-      <h4>How to Use ❓</h4>
-      <p>Simply allow camera access, start translating, and follow the on-screen instructions to explore sign language.</p>
-      </div>
-      <div class="feature-box">
-        <h4>🤝 Language Support</h4>
-        <p>Supports multiple spoken languages for global communication.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" class="about">
-    <div class="about-image">
-      <img src="HandSpeak.png" alt="HandSpeak in Action">
-    </div>
-
-    <div class="about-intro">
-      <p>
-        HandSpeak is an innovative web application that bridges the communication gap between the deaf,
-        hard of hearing, and those unfamiliar with sign language.
-        <br><br>
-        Harnessing cutting-edge gesture recognition technology, 
-        HandSpeak translates sign language into real-time text and converts it into natural, 
-        lifelike speech, making interactions effortless and seamless.
-        <br><br>
-        Our mission is to empower communication for all, 
-        breaking barriers and creating a world where every gesture speaks, 
-        every conversation matters, and no voice goes unheard.
-        <br><br>
-        With HandSpeak, technology meets empathy, 
-        ensuring accessibility is not just a feature, but an experience
-      </p>
-    </div>
-
-    <div class="team">
-      <h4>Meet the Designers</h4>
-      <div class="team-grid">
-        <div class="team-member">
-          <h5>👨‍💻 Vishwak Yellamalli</h5>
-          <p>Frontend Developer & UI/UX Designer</p>
-        </div>
-        <div class="team-member">
-          <h5>🛠️ Kush Vora</h5>
-          <p>Backend Developer & Database Management</p>
-        </div>
-        <div class="team-member">
-          <h5>⚙️ Sairaj Walawalkar</h5>
-          <p>Backend Developer & Database Management</p>
-        </div>
-        <div class="team-member">
-          <h5>🔧 Karthik Yadav</h5>
-          <p>Backend Developer & Database Management</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="contact">
-    <div class="contact-intro">
-      <h3>Contact Us</h3>
-      <p>
-        Have questions, feedback, or ideas? We’d love to hear from you.  
-        Reach out to us and let’s build better communication together.
-      </p>
-    </div>
-
-    <div class="contact-grid">
-      <div class="contact-info">
-        <h4>📍 Our Office</h4>
-        <p>123 Communication Street, Tech City, India</p>
-        <h4>📧 Email</h4>
-        <p>support@handspeak.com</p>
-        <h4>📞 Phone</h4>
-        <p>+91 98XXX XXXXX</p>
-      </div>
-
-      <div class="contact-form">
-        <form>
-          <input type="text" placeholder="Your Name" required />
-          <input type="email" placeholder="Your Email" required />
-          <textarea placeholder="Your Message" rows="5" required></textarea>
-          <button type="submit">Send Message</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>© <span id="year"></span> HandSpeak. Bridging Communication.</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
->>>>>>> 4ab49b0 (Initial commit: HandSpeak AI Sign Language Translator)

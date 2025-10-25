@@ -1,91 +1,4 @@
-<<<<<<< HEAD
-    const container = document.getElementById('container');
-    const registerBtn = document.getElementById('register');
-    const loginBtn = document.getElementById('login');
-    const forgotPasswordLink = document.getElementById('forgotPassword');
-    const backToLoginLink = document.getElementById('backToLogin');
-
-    registerBtn.addEventListener('click', () => {
-        container.classList.add("active");
-        container.classList.remove("show-reset");
-    });
-
-    loginBtn.addEventListener('click', () => {
-        container.classList.remove("active");
-        container.classList.remove("show-reset");
-    });
-
-    forgotPasswordLink.addEventListener('click', () => {
-        container.classList.add("show-reset");
-    });
-
-    backToLoginLink.addEventListener('click', () => {
-        container.classList.remove("show-reset");
-    });
-
-    /* ---------- Background Animation ---------- */
-    const canvas = document.getElementById("techCanvas");
-    const ctx = canvas.getContext("2d");
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    let nodes = [];
-    const numNodes = 80;
-
-    for (let i = 0; i < numNodes; i++) {
-        nodes.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 1,
-            vy: (Math.random() - 0.5) * 1
-        });
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw connections
-        for (let i = 0; i < numNodes; i++) {
-            for (let j = i + 1; j < numNodes; j++) {
-                let dx = nodes[i].x - nodes[j].x;
-                let dy = nodes[i].y - nodes[j].y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150) {
-                    ctx.strokeStyle = `rgba(0, 195, 255, ${1 - dist / 150})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(nodes[i].x, nodes[i].y);
-                    ctx.lineTo(nodes[j].x, nodes[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
-
-        // Draw nodes
-        for (let i = 0; i < numNodes; i++) {
-            ctx.beginPath();
-            ctx.arc(nodes[i].x, nodes[i].y, 3, 0, Math.PI * 2);
-            ctx.fillStyle = "#00c3ff";
-            ctx.fill();
-
-            nodes[i].x += nodes[i].vx;
-            nodes[i].y += nodes[i].vy;
-
-            if (nodes[i].x < 0 || nodes[i].x > canvas.width) nodes[i].vx *= -1;
-            if (nodes[i].y < 0 || nodes[i].y > canvas.height) nodes[i].vy *= -1;
-        }
-
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-=======
-/* ------------------ OAuth Configuration ------------------ */
+/* OAuth Configuration */
 const OAUTH_CONFIG = {
   GOOGLE_CLIENT_ID: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
   GITHUB_CLIENT_ID: "YOUR_GITHUB_CLIENT_ID",
@@ -95,10 +8,10 @@ const OAUTH_CONFIG = {
   LINKEDIN_REDIRECT_URI: "http://localhost:3000/auth/linkedin/callback"
 };
 
-/* ------------------ API Base ------------------ */
+/* ============ API Base ============ */
 const API_BASE = "http://localhost:5000";
 
-/* ------------------ GOOGLE OAuth ------------------ */
+/* ============ GOOGLE OAuth ============ */
 function handleCredentialResponse(response) {
   const token = response.credential;
   
@@ -155,7 +68,7 @@ function loginWithGoogle() {
   }
 }
 
-/* ------------------ Facebook OAuth ------------------ */
+/* ============ Facebook OAuth ============ */
 function loginWithFacebook() {
   try {
     if (typeof FB !== 'undefined') {
@@ -192,7 +105,7 @@ function loginWithFacebook() {
   }
 }
 
-/* ------------------ GitHub OAuth ------------------ */
+/* ============ GitHub OAuth ============ */
 function loginWithGitHub() {
   try {
     const authUrl = `https://github.com/login/oauth/authorize?client_id=${OAUTH_CONFIG.GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(OAUTH_CONFIG.GITHUB_REDIRECT_URI)}&scope=user:email&state=github`;
@@ -205,7 +118,7 @@ function loginWithGitHub() {
   }
 }
 
-/* ------------------ LinkedIn OAuth ------------------ */
+/* ============ LinkedIn OAuth ============ */
 function loginWithLinkedIn() {
   try {
     const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${OAUTH_CONFIG.LINKEDIN_CLIENT_ID}&redirect_uri=${encodeURIComponent(OAUTH_CONFIG.LINKEDIN_REDIRECT_URI)}&scope=openid%20profile%20email&state=linkedin`;
@@ -218,7 +131,7 @@ function loginWithLinkedIn() {
   }
 }
 
-/* ------------------ Send OAuth Data to Backend ------------------ */
+/* ============ Send OAuth Data to Backend ============ */
 function oauthLogin(userData) {
   console.log("📤 Sending OAuth data to backend:", userData);
   
@@ -234,6 +147,7 @@ function oauthLogin(userData) {
     if (data.token) {
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('isFirstLogin', 'true'); // ✅ Mark as new user for OAuth
       alert(`✅ Welcome, ${data.user.name}!`);
       
       // Redirect to home
@@ -250,7 +164,7 @@ function oauthLogin(userData) {
   });
 }
 
-/* ------------------ Handle OAuth Callbacks ------------------ */
+/* ============ Handle OAuth Callbacks ============ */
 window.addEventListener('load', () => {
   // Handle GitHub callback
   const githubCode = new URLSearchParams(window.location.search).get('code');
@@ -313,7 +227,7 @@ window.addEventListener('load', () => {
   }
 });
 
-/* ------------------ UI Logic ------------------ */
+/* ============ Existing UI Logic ============ */
 const container = document.getElementById("container");
 const registerBtn = document.getElementById("register");
 const loginBtn = document.getElementById("login");
@@ -348,7 +262,7 @@ if (backToLoginLink) {
   });
 }
 
-/* ------------------ SIGN UP ------------------ */
+/* ============ Sign Up ============ */
 document.querySelector(".sign-up form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
   
@@ -367,7 +281,6 @@ document.querySelector(".sign-up form")?.addEventListener("submit", async (e) =>
   }
 
   try {
-    console.log("📤 Sending signup request to:", `${API_BASE}/signup`);
     let res = await fetch(`${API_BASE}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -383,11 +296,11 @@ document.querySelector(".sign-up form")?.addEventListener("submit", async (e) =>
     }
   } catch (err) {
     console.error("❌ Fetch Error:", err);
-    alert("❌ Error: Could not connect to server. Make sure backend is running on port 5000.");
+    alert("❌ Error: Could not connect to server.");
   }
 });
 
-/* ------------------ SIGN IN ------------------ */
+/* ============ Sign In ============ */
 document.querySelector(".sign-in form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
   
@@ -409,11 +322,10 @@ document.querySelector(".sign-in form")?.addEventListener("submit", async (e) =>
     let data = await res.json();
     
     if (res.ok) {
-      // ✅ Store token and user info
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      alert(`✅ Welcome, ${data.user.name}!`);
-      
+      localStorage.setItem("isFirstLogin", "false"); // ✅ Mark as returning user
+      alert(`✅ Welcome back, ${data.user.name}!`);
       e.target.reset();
       window.location.href = "index.html";
     } else {
@@ -425,7 +337,7 @@ document.querySelector(".sign-in form")?.addEventListener("submit", async (e) =>
   }
 });
 
-/* ------------------ RESET PASSWORD ------------------ */
+/* ============ Reset Password ============ */
 document.querySelector(".reset-password form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
   
@@ -456,7 +368,7 @@ document.querySelector(".reset-password form")?.addEventListener("submit", async
   }
 });
 
-/* ------------------ Background Animation ------------------ */
+/* ============ Background Animation ============ */
 const canvas = document.getElementById("techCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -515,4 +427,3 @@ function animate() {
 }
 
 animate();
->>>>>>> 4ab49b0 (Initial commit: HandSpeak AI Sign Language Translator)

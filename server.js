@@ -277,8 +277,17 @@ app.post("/logout", (req, res) => {
   res.json({ message: "✅ Logout successful" });
 });
 
-// ✅ Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+
+const server = app.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
+
+server.on('error', (err) => {
+    if (err && err.code === 'EADDRINUSE') {
+        console.error(`❌ Port ${PORT} is already in use. Kill the process using it or set PORT env var.`);
+        process.exit(1);
+    } else {
+        throw err;
+    }
 });

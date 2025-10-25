@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* General Body & Canvas */
 body {
     margin: 0;
@@ -17,17 +16,36 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: #000000;
 }
 
 /* Header */
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.85);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+nav a {
+    margin-left: 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    color: #00fff2;
 }
 
 /* Logo Container */
@@ -43,7 +61,6 @@ header {
   border-radius: 50%; /* makes it circular */
   object-fit: cover;
   border: 2px solid rgb(0, 0, 0); /* optional stylish border */
-  box-shadow: 0 0 8px #fff; /* glow effect */
 }
 
 header h1 {
@@ -52,17 +69,28 @@ header h1 {
     font-weight: bold;
 }
 
-nav a {
-    margin-left: 1.5rem;
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #ffffff;
-    text-decoration: none;
-    transition: all 0.3s ease;
+/* Logout Button Styling */
+.logout-btn {
+  background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 166, 0));
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-left: 1.5rem;
+  font-size: 1rem;
 }
 
-nav a:hover {
-    color: #00fff2;
+.logout-btn:hover {
+  background-color: #CC0000;
+  box-shadow: 0 4px 12px rgba(255, 68, 68, 0.5);
+  transform: scale(1.05);
+}
+
+.logout-btn:active {
+  transform: scale(0.95);
 }
 
 /* Hero Section */
@@ -95,7 +123,7 @@ nav a:hover {
 }
 
 .hero-text h2 span {
-    color: #00fff2;
+    color: yellow;
     text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000,
                  -1px 1px 0 #000000, 1px 1px 0 #000000;
 }
@@ -124,11 +152,13 @@ nav a:hover {
 .start-btn {
     background: linear-gradient(to right, rgb(0, 255, 191), rgb(0, 247, 255));
     color: black;
+    font-weight: bolder;
 }
 
 .stop-btn {
     background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 166, 0));
     color: black;
+    font-weight: bolder;
 }
 
 .start-btn:hover, .stop-btn:hover {
@@ -256,13 +286,14 @@ footer {
     text-align: center;
     position: relative;
     z-index: 1;
+    margin-bottom: 10px;
 }
 
 .features h3 {
     font-size: 2.5rem;
     font-weight: bold;
     color: #00fff2;
-    margin-bottom: 3rem;
+    margin-bottom: 50px;
 }
 
 .features-grid {
@@ -271,7 +302,7 @@ footer {
     max-width: 1200px;
     width: 100%;
     padding: 0 1rem;
-    margin-bottom: 24%;
+    margin-bottom: 5%;
 }
 
 @media(min-width: 768px) {
@@ -329,12 +360,14 @@ footer {
     top: 20px;
     left: 10%;
     font-size: 8rem;
-    font-weight: 900;
+    font-weight: 400;
     color: rgba(255, 255, 255, 0.05);
     z-index: 0;
     pointer-events: none;
     -webkit-text-stroke: 2px rgb(255, 255, 255);
     color: transparent;
+    font-family: 'Asimovian', cursive;
+    letter-spacing: 1px;
 }
 
 .about-intro {
@@ -345,6 +378,9 @@ footer {
     max-width: 600px;
     z-index: 2;
     animation: fadeInUp 1s ease;
+    font-family: 'Asimovian', cursive;
+    font-weight: 400;
+    letter-spacing: 1px;
 }
 
 .about-image {
@@ -368,16 +404,17 @@ footer {
 
 /* Team Section */
 .team {
-    margin-top: 60px;
     flex: 1 1 100%;
     z-index: 2;
 }
 
 .team h4 {
     font-size: 1.8rem;
-    font-weight: 700;
+    font-weight: 400;
     margin-bottom: 25px;
     color: #ffffff;
+    font-family: 'Asimovian', cursive;
+    letter-spacing: 1px;
 }
 
 .team-grid {
@@ -387,7 +424,7 @@ footer {
 }
 
 .team-member {
-    background: rgb(0, 0, 0);
+    margin-bottom: 5%;
     border-radius: 16px;
     padding: 25px;
     backdrop-filter: blur(10px);
@@ -404,6 +441,9 @@ footer {
     font-size: 1.25rem;
     margin-bottom: 8px;
     color: #ffffff;
+    font-family: 'Asimovian', cursive;
+    font-weight: 400;
+    letter-spacing: 1px;
 }
 
 .team-member p {
@@ -411,660 +451,20 @@ footer {
     color: #ffffffb4;
 }
 
-/* Animations */
-@keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-    .about {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .about::before {
-        font-size: 5rem;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .about-intro, .about-image {
-        flex: 1 1 100%;
-    }
-}
-
-/* Contact Section */
-.contact {
-    position: relative;
-    padding: 100px 10%;
-    color: #ffffff;
-    text-align: center;
-}
-
-.contact h3 {
-    font-size: 2.2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #00fff2;
-}
-
-.contact p {
-    font-size: 1.1rem;
-    color: #d1d5db;
-    margin-bottom: 3rem;
-}
-
-.contact-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.contact-info {
-    flex: 1 1 35%;
-    background: rgba(26, 26, 26, 0.65);
-    padding: 2rem;
-    border-radius: 1rem;
-    border: 2px solid #227e81b7;
-    backdrop-filter: blur(6px);
-    text-align: left;
-}
-
-.contact-info h4 {
-    color: #00fff2;
-    margin-top: 1rem;
-    margin-bottom: 0.3rem;
-}
-
-.contact-info p {
-    margin: 0;
-    color: #d1d5db;
-}
-
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.contact-form input,
-.contact-form textarea {
-    width: 80%;
-    margin: 10px 0;
-    padding: 12px;
-    border: 1px solid cyan;
-    border-radius: 10px;
-    background: #111;
-    color: #fff;
-    font-size: 16px;
-    outline: none;
-}
-
-.contact-form button {
-    width: 80%;
-    margin-top: 15px;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    background: cyan;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.contact-form button:hover {
-    background: #00ffffa0;
-}
-
-@media(max-width: 900px) {
-    .contact-grid {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .contact-info, .contact-form {
-        flex: 1 1 100%;
-    }
-}
-
-/* ---------------- Modal Tutorial Popup ---------------- */
-.modal {
-  text-align: center;
-  display: none; /* hidden by default */
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.8); /* dark background */
-  backdrop-filter: blur(4px);
-}
-
-.modal-content {
-  background: rgba(0, 0, 0, 0.9);
-  margin: 3% auto;
-  padding: 3%;
-  border-radius: 12px;
-  width: 85%;
-  max-width: 1000px;
-  position: relative;
-  box-shadow: 0 0 8px 8px cyan;
-  animation: fadeIn 0.5s ease;
-}
-
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 3rem;
-  color: #ffffff;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.close-btn:hover {
-  color: cyan;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-20px);}
-  to { opacity: 1; transform: translateY(0);}
-}
-
-/* ---------------- Tutorial Carousel ---------------- */
-.carousel {
-  width: 100%;
-  max-width: 800px;
-  margin: 30px auto;
-  overflow: hidden;
-  border-radius: 10px;
-  position: relative;
-  transition: height 0.5s ease; /* box resizes smoothly */
-}
-
-.carousel .list {
-  display: flex;
-  transition: transform 0.6s ease-in-out; /* swipe effect */
-}
-
-.carousel .list .item {
-  min-width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.carousel .list .item img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: auto;
-  border-radius: 6px;
-}
-/* ---------------- Tutorial Thumbnails ---------------- */
-.thumbnail {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 15px;
-}
-
-.thumbnail .item {
-  width: 70px;
-  height: 50px;
-  border: 2px solid #fff;
-  border-radius: 6px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s, border-color 0.3s;
-}
-
-.thumbnail .item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.thumbnail .item:hover {
-  transform: scale(1.1);
-  border-color: cyan;
-}
-
-.thumbnail .item.active {
-  border: 2px solid cyan;
-  box-shadow: 0 0 10px cyan;
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-=======
-/* General Body & Canvas */
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background: #000000;
-}
-
-#backgroundCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-/* Header */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.85);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Logo Container */
-.logo-container {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* space between logo and text */
-}
-
-.logo-img {
-  width: 60px;   /* adjust size */
-  height: 60px;
-  border-radius: 50%; /* makes it circular */
-  object-fit: cover;
-  border: 2px solid rgb(0, 0, 0); /* optional stylish border */
-}
-
-header h1 {
-    color: #00fff2;
-    font-size: 1.75rem;
-    font-weight: bold;
-}
-
-nav a {
-    margin-left: 1.5rem;
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #ffffff;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-nav a:hover {
-    color: #00fff2;
-}
-
-/* Hero Section */
-.hero {
-    background-color: rgba(0,0,0,0.0); /* fully transparent */
-    display: flex;
-    flex-direction: column;
-    padding: 4rem 3rem;
-    gap: 2rem;
-}
-
-@media(min-width: 1024px) {
-    .hero {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-}
-
-.hero-text {
-    max-width: 600px;
-}
-
-.hero-text h2 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #ffffff;
-    text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000,
-                 -1px 1px 0 #000000, 1px 1px 0 #000000;
-}
-
-.hero-text h2 span {
-    color: yellow;
-    text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000,
-                 -1px 1px 0 #000000, 1px 1px 0 #000000;
-}
-
-.hero-text p {
-    font-size: 1.125rem;
-    color: #d1d5db;
-    margin-top: 1rem;
-}
-
-.hero-buttons {
-    margin-top: 1.5rem;
-}
-
-.hero-buttons button {
-    padding: 0.75rem 1.5rem;
-    margin-right: 1rem;
-    border-radius: 1rem;
-    cursor: pointer;
-    font-weight: 500;
-    box-shadow: 0 4px 6px rgba(255,255,255,0.1);
-    border: 2px solid black;
-    transition: all 0.3s ease;
-}
-
-.start-btn {
-    background: linear-gradient(to right, rgb(0, 255, 191), rgb(0, 247, 255));
-    color: black;
-}
-
-.stop-btn {
-    background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 166, 0));
-    color: black;
-}
-
-.start-btn:hover, .stop-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-}
-
-#cameraStatus {
-    margin-top: 1rem;
-    font-size: 1rem;
-    color: #00fff2;
-}
-
-.camera-box {
-    width: 1000px;
-    height: 530px;
-    background: #222;
-    border-radius: 1rem;
-    border: 3px solid #00fff2;
-    box-shadow: 0 0 12px rgba(0, 255, 255, 0.3),
-                inset 0 2px 6px rgba(255, 255, 255, 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-}
-
-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 1rem;
-}
-
-/* ---------------- Switch Camera Button ---------------- */
-.switch-btn {
-    position: absolute;
-    top: 15px;
-    right: 16px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    transition: transform 0.3s ease;
-}
-
-.switch-btn img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
-}
-
-.switch-btn:hover {
-    transform: rotate(180deg) scale(1.1);
-}
-
-Translation Section
-.translation {
-    padding: 1rem 1rem;
-    text-align: center;
-    margin-bottom: 6rem;
-}
-
-.translation h3 {
-    font-size: 1.75rem;
-    font-weight: bold;
-    color: #00fff2;
-    margin-bottom: 2rem;
-}
-
-.translation-grid {
-    display: grid;
-    gap: 1.5rem;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-@media(min-width: 768px) {
-    .translation-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-.translation-box {
-    /* background: #1a1a1a; */
-    padding: 1.5rem;
-    border-radius: 1rem;
-    border: 4px solid #00f7ffb7;
-}
-
-.translation-box h4 {
-    color: #00fff2;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.translation-box div {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-size: 1.25rem;
-}
-
-/* Footer */
-footer {
-    margin-top: auto;
-    color: #ffffff;
-    text-align: center;
-    padding: 1.5rem;
-}
-
-/* Features Section */
-.features {
-    background: transparent; /* Full Screen + Transparent */
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 4rem 2rem;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-    margin-top: 180px;
-}
-
-.features h3 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #00fff2;
-    margin-bottom: 3rem;
-}
-
-.features-grid {
-    display: grid;
-    gap: 3rem;
-    max-width: 1200px;
-    width: 100%;
-    padding: 0 1rem;
-    margin-bottom: 24%;
-}
-
-@media(min-width: 768px) {
-    .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media(min-width: 1024px) {
-    .features-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-.feature-box {
-    background: rgba(26, 26, 26, 0.65);
-    padding: 2rem 1.5rem;
-    border-radius: 1rem;
-    border: 3px solid #00f7ffb7;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    backdrop-filter: blur(6px);
-}
-
-.feature-box:hover {
-    transform: translateY(-1px) scale(1.05);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
-}
-
-.feature-box h4 {
-    color: #00fff2;
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-}
-
-.feature-box p {
-    font-size: 1rem;
-    color: #d1d5db;
-    line-height: 1.5;
-}
-
-/* About Section */
-.about {
-    position: relative;
-    padding: 100px 10%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 60px;
-    overflow: hidden;
-}
-
-.about::before {
-    content: "ABOUT US";
-    position: absolute;
-    top: 20px;
-    left: 10%;
-    font-size: 8rem;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.05);
-    z-index: 0;
-    pointer-events: none;
-    -webkit-text-stroke: 2px rgb(255, 255, 255);
-    color: transparent;
-}
-
-.about-intro {
-    flex: 1 1 45%;
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: #ffffff;
-    max-width: 600px;
-    z-index: 2;
-    animation: fadeInUp 1s ease;
-}
-
-.about-image {
-    flex: 1 1 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-}
-
-.about-image img {
-    width: 100%;
-    max-width: 420px;
-    border-radius: 20px;
-    transition: transform 0.5s ease;
-}
-
-.about-image img:hover {
-    transform: scale(1.05) rotate(-2deg);
-}
-
-/* Team Section */
-.team {
-    /* margin-top: 60px; */
-    flex: 1 1 100%;
-    z-index: 2;
-}
-
-.team h4 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 25px;
-    color: #ffffff;
-}
-
-.team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
-}
-
-.team-member {
-    background: rgb(0, 0, 0);
-    border-radius: 16px;
-    padding: 25px;
-    backdrop-filter: blur(10px);
-    border: 3px solid #ffffff;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.team-member:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 5px 20px rgba(0, 255, 200, 0.904);
-}
-
-.team-member h5 {
-    font-size: 1.25rem;
-    margin-bottom: 8px;
-    color: #ffffff;
-}
-
-.team-member p {
-    font-size: 1rem;
-    color: #ffffffb4;
+/* User Greeting Styling */
+.user-greeting {
+  color: rgba(0, 255, 200, 0.904);
+  font-weight: bold;
+  font-size: 6px;
+  margin: 0 1rem;
+  padding: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.user-greeting:hover {
+  background-color: transparent;
+  border-color: transparent;
 }
 
 /* Animations */
@@ -1200,5 +600,3 @@ footer {
 html {
     scroll-behavior: smooth;
 }
-
->>>>>>> 4ab49b0 (Initial commit: HandSpeak AI Sign Language Translator)
