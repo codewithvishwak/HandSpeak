@@ -61,9 +61,48 @@ function createDustParticles() {
   }
 }
 
+// ✅ Generate Star Effects
+function generateStars() {
+  const starsContainer = document.getElementById('starsContainer');
+  if (!starsContainer) return;
+
+  const starCount = 80; // Number of stars
+
+  for (let i = 0; i < starCount; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+
+    // Random size (small, medium, large)
+    const sizeRandom = Math.random();
+    if (sizeRandom < 0.3) {
+      star.classList.add('small');
+    } else if (sizeRandom > 0.7) {
+      star.classList.add('large');
+    }
+
+    // 30% chance of shimmer effect
+    if (Math.random() < 0.3) {
+      star.classList.add('shimmer');
+    }
+
+    // Random position
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    star.style.left = x + '%';
+    star.style.top = y + '%';
+
+    // Random animation delay for staggered effect
+    star.style.animationDelay = (Math.random() * 3) + 's';
+
+    starsContainer.appendChild(star);
+  }
+}
+
 // ✅ Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🎬 Landing page loaded');
+
+  generateStars(); // ✅ Generate stars
 
   const btnStart = document.querySelector('.btn-start');
   // ensure tear container exists

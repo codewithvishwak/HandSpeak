@@ -532,7 +532,7 @@ if (switchBtn) {
   });
 }
 
-// ✅ Galaxy Background Animation
+// ✅ Galaxy Background Animation - ENHANCED GLOW
 function initBlueGalaxy() {
   const canvas = document.getElementById("backgroundCanvas");
   if (!canvas) return;
@@ -551,7 +551,7 @@ function initBlueGalaxy() {
     stars = Array.from({ length: STAR_COUNT }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      r: Math.random() * 1.5 + 0.5, // smaller radius for sharp stars
+      r: 0.8, // Fixed small size for all stars
       dx: (Math.random() - 0.5) * 0.4,
       dy: (Math.random() - 0.5) * 0.4,
       alpha: Math.random() * 0.6 + 0.4,
@@ -571,20 +571,38 @@ function initBlueGalaxy() {
       s.alpha += s.pulseSpeed * (Math.random() < 0.5 ? -1 : 1);
       s.alpha = Math.max(0.4, Math.min(1, s.alpha));
 
-      // Create a glowing star effect
-      const gradient = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 4);
-      gradient.addColorStop(0, `rgba(0, 255, 242, ${s.alpha})`);      // Full opacity with #00fff2
-      gradient.addColorStop(0.3, `rgba(0, 255, 242, ${s.alpha * 0.8})`);  // 80% opacity
-      gradient.addColorStop(1, "transparent"); 
+      // ✅ ENHANCED: Larger glow radius for more visible effect
+      const glowRadius = s.r * 6; // Increased from 2.5 to 6
+
+      // ✅ ENHANCED: Multi-layer glow gradient
+      const gradient = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowRadius);
+      
+      // ✅ ENHANCED: Brighter glow layers
+      gradient.addColorStop(0, `rgba(0, 255, 242, ${s.alpha * 0.8})`); // Increased from 0.4 to 0.8
+      gradient.addColorStop(0.15, `rgba(0, 255, 242, ${s.alpha * 0.5})`); // New layer
+      gradient.addColorStop(0.3, `rgba(0, 255, 242, ${s.alpha * 0.3})`); // Increased from 0.2 to 0.3
+      gradient.addColorStop(0.6, `rgba(0, 150, 255, ${s.alpha * 0.15})`); // Blue halo
+      gradient.addColorStop(1, "transparent");
 
       ctx.beginPath();
       ctx.fillStyle = gradient;
-      ctx.arc(s.x, s.y, s.r * 4, 0, Math.PI * 2);
+      ctx.arc(s.x, s.y, glowRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Small bright white dot at center
+      // ✅ ENHANCED: Brighter white center with stronger glow
+      const coreGradient = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 3);
+      coreGradient.addColorStop(0, `rgba(255, 255, 255, ${s.alpha * 0.95})`); // Brighter white
+      coreGradient.addColorStop(0.5, `rgba(200, 240, 255, ${s.alpha * 0.8})`);
+      coreGradient.addColorStop(1, "transparent");
+
       ctx.beginPath();
-      ctx.fillStyle = `rgba(200, 240, 255, ${s.alpha})`;
+      ctx.fillStyle = coreGradient;
+      ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // ✅ ENHANCED: Bright white core
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(0, 255, 242, 1) ${s.alpha})`; // Increased alpha
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
       ctx.fill();
 
@@ -610,6 +628,51 @@ function initBlueGalaxy() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("✨ Blue Galaxy Starfield initialized");
+  console.log("✨ Enhanced Blue Galaxy Starfield initialized");
   initBlueGalaxy();
 })
+
+// ✅ Contact Form Handler
+document.addEventListener("DOMContentLoaded", () => {
+  const contactForm = document.getElementById("contactForm");
+  
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("contactName").value.trim();
+      const email = document.getElementById("contactEmail").value.trim();
+      const message = document.getElementById("contactMessage").value.trim();
+
+      if (!name || !email || !message) {
+        alert("❌ All fields are required");
+        return;
+      }
+
+      if (message.length < 10) {
+        alert("❌ Message must be at least 10 characters long");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:5000/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert(data.message);
+          contactForm.reset();
+        } else {
+          alert("❌ " + data.message);
+        }
+      } catch (err) {
+        console.error("❌ Contact Form Error:", err);
+        alert("❌ Error: " + err.message);
+      }
+    });
+  }
+});

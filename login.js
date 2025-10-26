@@ -337,11 +337,12 @@ document.querySelector(".sign-in form")?.addEventListener("submit", async (e) =>
   }
 });
 
-/* ============ Reset Password ============ */
-document.querySelector(".reset-password form")?.addEventListener("submit", async (e) => {
+/* ============ Reset Password with OTP ============ */
+async function handleResetSubmit(e) {
   e.preventDefault();
   
-  const email = e.target.querySelector('input[placeholder="Email"]').value.trim();
+  const resetForm = document.querySelector(".reset-password form");
+  const email = resetForm.querySelector('input[placeholder="Email"]').value.trim();
 
   if (!email) {
     alert("❌ Please enter your email");
@@ -349,7 +350,8 @@ document.querySelector(".reset-password form")?.addEventListener("submit", async
   }
 
   try {
-    let res = await fetch(`${API_BASE}/reset`, {
+    // Step 1: Request OTP
+    let res = await fetch(`${API_BASE}/reset-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
@@ -359,14 +361,116 @@ document.querySelector(".reset-password form")?.addEventListener("submit", async
     alert(data.message);
     
     if (res.ok) {
-      e.target.reset();
-      container.classList.remove("show-reset");
+      // Step 2: Show OTP verification form
+      showOTPVerification(email);
     }
   } catch (err) {
     console.error(err);
-    alert("❌ Error: Could not connect to server.");
+    alert("❌ Error: " + err.message);
   }
-});
+}
+
+function showOTPVerification(email) {
+  const resetForm = document.querySelector(".reset-password form");
+  resetForm.innerHTML = `
+    <h1>Verify OTP</h1>
+    <span>Enter the 6-digit code sent to your email</span>
+    <input type="text" id="otp" placeholder="000000" maxlength="6" pattern="[0-9]{6}" required />
+    <input type="password" id="newPassword" placeholder="New Password" required />
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+    <button type="submit">Reset Password</button>
+    <a href="#" id="backToResetEmail" style="display: block; margin-top: 1rem;">← Back to Email</a>
+  `;
+
+  // ✅ Back button to return to email input
+  const backBtn = document.getElementById("backToResetEmail");
+  if (backBtn) {
+    backBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log("🔙 Back button clicked");
+      
+      // Reset form to email input
+      resetForm.innerHTML = `
+        <h1>Reset Password</h1>
+        <span>Enter your email to reset password</span>
+        <input type="email" placeholder="Email" />
+        <button type="submit">Send OTP</button>
+        <a href="#" id="backToLogin">Back to Login</a>
+      `;
+      
+      // ✅ Re-attach the main form submit handler
+      document.querySelector(".reset-password form")?.addEventListener("submit", handleResetSubmit);
+      
+      // ✅ Re-attach back to login handler
+      const backToLoginBtn = document.getElementById("backToLogin");
+      if (backToLoginBtn) {
+        backToLoginBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          container.classList.remove("show-reset");
+        });
+      }
+    });
+  }
+
+  // ✅ Handle OTP verification form submit
+  resetForm.onsubmit = async (e) => {
+    e.preventDefault();
+    const otp = document.getElementById("otp").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (newPassword !== confirmPassword) {
+      alert("❌ Passwords don't match");
+      return;
+    }
+
+    if (otp.length !== 6) {
+      alert("❌ OTP must be 6 digits");
+      return;
+    }
+
+    try {
+      let res = await fetch(`${API_BASE}/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp, newPassword }),
+      });
+
+      let data = await res.json();
+      alert(data.message);
+      
+      if (res.ok) {
+        container.classList.remove("show-reset");
+        
+        // ✅ IMPORTANT: Reset form to email input (fixes the "send only once" issue)
+        resetForm.innerHTML = `
+          <h1>Reset Password</h1>
+          <span>Enter your email to reset password</span>
+          <input type="email" placeholder="Email" />
+          <button type="submit">Send OTP</button>
+          <a href="#" id="backToLogin">Back to Login</a>
+        `;
+        
+        // ✅ Re-attach handlers so it can be used again
+        document.querySelector(".reset-password form")?.addEventListener("submit", handleResetSubmit);
+        
+        const backToLoginBtn = document.getElementById("backToLogin");
+        if (backToLoginBtn) {
+          backToLoginBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            container.classList.remove("show-reset");
+          });
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      alert("❌ Error: " + err.message);
+    }
+  };
+}
+
+// ✅ Attach initial handler
+document.querySelector(".reset-password form")?.addEventListener("submit", handleResetSubmit);
 
 /* ============ Background Animation ============ */
 const canvas = document.getElementById("techCanvas");

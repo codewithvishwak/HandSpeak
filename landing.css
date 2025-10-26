@@ -297,9 +297,8 @@ h1 {
   font-size: 4.5rem;
   font-weight: bold;
   color: #00fff2;
-  text-shadow: 0 0 20px rgba(0, 255, 242, 0.5),
-               0 0 40px rgba(0, 255, 242, 0.3),
-               0 0 60px rgba(0, 255, 242, 0.2);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+               -1px -1px 2px rgba(0, 0, 0, 0.6);
   letter-spacing: 4px;
   margin-bottom: 1rem;
   animation: titleGlow 2s ease-in-out infinite;
@@ -307,28 +306,13 @@ h1 {
 
 @keyframes titleGlow {
   0%, 100% {
-    text-shadow: 0 0 20px rgba(0, 255, 242, 0.5),
-                 0 0 40px rgba(0, 255, 242, 0.3),
-                 0 0 60px rgba(0, 255, 242, 0.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+                 -1px -1px 2px rgba(0, 0, 0, 0.6);
   }
   50% {
-    text-shadow: 0 0 30px rgba(0, 255, 242, 0.8),
-                 0 0 60px rgba(0, 255, 242, 0.5),
-                 0 0 90px rgba(0, 255, 242, 0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+                 -1px -1px 2px rgba(0, 0, 0, 0.6);
   }
-}
-
-.title-underline {
-  width: 150px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #00fff2, transparent);
-  margin: 0 auto;
-  animation: expandLine 1.5s ease infinite;
-}
-
-@keyframes expandLine {
-  0%, 100% { width: 150px; opacity: 0.5; }
-  50% { width: 200px; opacity: 1; }
 }
 
 /* ===== SUBTITLE & DESCRIPTION ===== */
@@ -476,6 +460,89 @@ h1 {
   33% { transform: translateY(-40px) translateX(30px); }
   66% { transform: translateY(-80px) translateX(-30px); }
 }
+
+/* ===== STAR EFFECTS ===== */
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 3px rgba(0, 255, 242, 0.8);
+  animation: twinkle 3s infinite;
+}
+
+.star.small {
+  width: 1px;
+  height: 1px;
+  box-shadow: 0 0 2px rgba(0, 255, 242, 0.6);
+}
+
+.star.large {
+  width: 3px;
+  height: 3px;
+  box-shadow: 0 0 5px rgba(0, 255, 242, 0.9), 0 0 10px rgba(0, 255, 242, 0.5);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+}
+
+.star.shimmer {
+  animation: shimmer 4s infinite;
+}
+
+/* ===== STAR FALL / SHOOTING STARS ===== */
+.shooting-star {
+  position: absolute;
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(to bottom, #00fff2, transparent);
+  box-shadow: 0 0 10px rgba(0, 255, 242, 0.8);
+  animation: fall linear infinite;
+  pointer-events: none;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100vh) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+/* Varied fall speeds */
+.shooting-star.speed-1 { animation-duration: 3s; }
+.shooting-star.speed-2 { animation-duration: 4s; }
+.shooting-star.speed-3 { animation-duration: 5s; }
+.shooting-star.speed-4 { animation-duration: 6s; }
+.shooting-star.speed-5 { animation-duration: 7s; }
+
+/* Varied delay */
+.shooting-star.delay-1 { animation-delay: 0s; }
+.shooting-star.delay-2 { animation-delay: 1s; }
+.shooting-star.delay-3 { animation-delay: 2s; }
+.shooting-star.delay-4 { animation-delay: 3s; }
+.shooting-star.delay-5 { animation-delay: 4s; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
