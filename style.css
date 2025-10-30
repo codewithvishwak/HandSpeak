@@ -159,7 +159,7 @@ header h1 {
     background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 166, 0));
     color: black;
     font-weight: bolder;
-}
+} 
 
 .start-btn:hover, .stop-btn:hover {
     transform: scale(1.05);
@@ -174,7 +174,7 @@ header h1 {
 
 .camera-box {
     width: 1000px;
-    height: 530px;
+    height: 730px;
     background: #222;
     border-radius: 1rem;
     border: 3px solid #00fff2;
@@ -286,7 +286,7 @@ footer {
     text-align: center;
     position: relative;
     z-index: 1;
-    margin-bottom: 10px;
+    margin-top: 50px;
 }
 
 .features h3 {

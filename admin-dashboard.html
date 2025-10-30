@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - HandSpeak Users</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #000000 0%, #1a1a2e 100%);
+      color: #fff;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: slideDown 0.6s ease;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: #00fff2;
+      text-shadow: 0 0 20px rgba(0, 255, 242, 0.5);
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: #d1d5db;
+      font-size: 1.1rem;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: rgba(0, 255, 242, 0.1);
+      border: 2px solid #00fff2;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 255, 242, 0.5);
+    }
+
+    .stat-card h3 {
+      color: #00fff2;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .stat-card .value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #FFD700;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00fff2, #0099cc);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 255, 242, 0.6);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 215, 0, 0.2);
+      color: #FFD700;
+      border: 2px solid #FFD700;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 215, 0, 0.3);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ff3d3d, #ff8c00);
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      transform: scale(1.05);
+    }
+
+    /* Search Bar */
+    .search-bar {
+      margin-bottom: 2rem;
+    }
+
+    .search-bar input {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.8rem;
+      border: 2px solid #00fff2;
+      border-radius: 8px;
+      background: rgba(0, 255, 242, 0.1);
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .search-bar input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      box-shadow: 0 0 15px rgba(0, 255, 242, 0.5);
+    }
+
+    /* Table Container */
+    .table-container {
+      background: rgba(26, 26, 26, 0.8);
+      border: 2px solid #00fff2;
+      border-radius: 12px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 242, 0.2);
+      animation: fadeIn 0.8s ease;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: rgba(0, 255, 242, 0.15);
+      border-bottom: 2px solid #00fff2;
+    }
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      color: #00fff2;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(0, 255, 242, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(0, 255, 242, 0.1);
+    }
+
+    td {
+      padding: 1.2rem;
+      color: #d1d5db;
+    }
+
+    /* User ID Badge */
+    .user-id {
+      background: rgba(0, 255, 242, 0.2);
+      color: #00fff2;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    /* Email Badge */
+    .email-badge {
+      color: #00fff2;
+      text-decoration: none;
+      border-bottom: 1px dotted #00fff2;
+    }
+
+    .email-badge:hover {
+      color: #FFD700;
+    }
+
+    /* Provider Badge */
+    .provider-badge {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .provider-local {
+      background: rgba(0, 255, 242, 0.2);
+      color: #00fff2;
+    }
+
+    .provider-google {
+      background: rgba(234, 67, 53, 0.2);
+      color: #EA4335;
+    }
+
+    .provider-github {
+      background: rgba(51, 51, 51, 0.4);
+      color: #ffffff;
+    }
+
+    .provider-facebook {
+      background: rgba(24, 119, 242, 0.2);
+      color: #1877F2;
+    }
+
+    .provider-linkedin {
+      background: rgba(10, 102, 194, 0.2);
+      color: #0A66C2;
+    }
+
+    /* Password Column */
+    .password-cell {
+      font-family: 'Courier New', monospace;
+      color: #FFD700;
+      font-size: 0.9rem;
+    }
+
+    /* Status Badge */
+    .status-badge {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .status-active {
+      background: rgba(0, 255, 0, 0.2);
+      color: #00ff00;
+    }
+
+    .status-inactive {
+      background: rgba(255, 100, 100, 0.2);
+      color: #ff6464;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #d1d5db;
+    }
+
+    .empty-state svg {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #00fff2;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 255, 242, 0.3);
+      border-top: 4px solid #00fff2;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Animations */
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .pagination button {
+      padding: 0.6rem 1rem;
+      border: 1px solid #00fff2;
+      background: transparent;
+      color: #00fff2;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .pagination button:hover,
+    .pagination button.active {
+      background: #00fff2;
+      color: #000;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        padding: 0.8rem 0.5rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0, 255, 242, 0.2);
+      color: #d1d5db;
+    }
+
+    /* Back Button */
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: rgba(0, 255, 242, 0.2);
+      color: #00fff2;
+      border: 1px solid #00fff2;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #00fff2;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Back Button -->
+    <a href="index.html" class="back-btn">← Back to Home</a>
+
+    <!-- Header -->
+    <header>
+      <h1>🖐️ HandSpeak Admin Dashboard</h1>
+      <p>View and Manage All Registered Users</p>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>👥 Total Users</h3>
+        <div class="value" id="totalUsers">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>🔐 Local Signups</h3>
+        <div class="value" id="localUsers">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>🌐 OAuth Users</h3>
+        <div class="value" id="oauthUsers">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>⏰ Last Updated</h3>
+        <div class="value" id="lastUpdate" style="font-size: 1rem;">--</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn btn-primary" onclick="loadUsers()">🔄 Refresh Data</button>
+      <button class="btn btn-secondary" onclick="exportToCSV()">📥 Export CSV</button>
+      <button class="btn btn-secondary" onclick="printTable()">🖨️ Print</button>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search by name or email..." 
+        onkeyup="filterTable()"
+      >
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Provider</th>
+            <th>Password</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Loading state -->
+          <tr>
+            <td colspan="7" class="loading">
+              <div class="spinner"></div>
+              <p>Loading users...</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>📊 HandSpeak Admin Panel | Last Sync: <span id="syncTime">--</span></p>
+    </footer>
+  </div>
+
+  <script>
+    const API_BASE = "http://localhost:5000";
+
+    // Check admin authentication
+    async function checkAdminAuth() {
+      const adminKey = prompt("🔐 Enter Admin Key:");
+      if (adminKey !== "admin123") {
+        alert("❌ Unauthorized");
+        window.location.href = "index.html";
+      }
+    }
+
+    // Load users from backend
+    async function loadUsers() {
+      try {
+        const response = await fetch(`${API_BASE}/dev/users`);
+        const data = await response.json();
+
+        if (response.ok) {
+          displayUsers(data.users);
+          updateStats(data.users);
+          document.getElementById('syncTime').textContent = new Date().toLocaleTimeString();
+        } else {
+          alert('❌ Error: ' + data.message);
+        }
+      } catch (error) {
+        console.error('❌ Error loading users:', error);
+        alert('❌ Failed to connect to server. Make sure npm start is running.');
+      }
+    }
+
+    // Display users in table
+    function displayUsers(users) {
+      const tableBody = document.getElementById('tableBody');
+      
+      if (users.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="7" class="empty-state">
+              <div>📭 No users registered yet</div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = users.map((user, index) => `
+        <tr>
+          <td><span class="user-id">#${user.id}</span></td>
+          <td><strong>${user.name}</strong></td>
+          <td><a href="mailto:${user.email}" class="email-badge">${user.email}</a></td>
+          <td>
+            <span class="provider-badge provider-${user.provider || 'local'}">
+              ${getProviderIcon(user.provider)} ${user.provider || 'Local'}
+            </span>
+          </td>
+          <td class="password-cell">${user.password ? '••••••••' : 'N/A (OAuth)'}</td>
+          <td><span class="status-badge status-active">✓ Active</span></td>
+          <td>
+            <button class="btn btn-secondary" onclick="copyToClipboard('${user.email}')">📋 Copy Email</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Update statistics
+    function updateStats(users) {
+      const total = users.length;
+      const local = users.filter(u => !u.provider || u.provider === 'local').length;
+      const oauth = total - local;
+
+      document.getElementById('totalUsers').textContent = total;
+      document.getElementById('localUsers').textContent = local;
+      document.getElementById('oauthUsers').textContent = oauth;
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+    }
+
+    // Get provider icon
+    function getProviderIcon(provider) {
+      const icons = {
+        'google': '🔴',
+        'github': '🐙',
+        'facebook': '📘',
+        'linkedin': '💼',
+        'local': '🔐'
+      };
+      return icons[provider] || '🔐';
+    }
+
+    // Filter table by search
+    function filterTable() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const table = document.getElementById('usersTable');
+      const rows = table.getElementsByTagName('tr');
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(input) ? '' : 'none';
+      }
+    }
+
+    // Copy to clipboard
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      alert('✅ Copied: ' + text);
+    }
+
+    // Export to CSV
+    function exportToCSV() {
+      const table = document.getElementById('usersTable');
+      let csv = 'ID,Name,Email,Provider,Password,Status\n';
+
+      const rows = table.getElementsByTagName('tr');
+      for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        if (cells.length > 0) {
+          csv += `${cells[0].textContent},${cells[1].textContent},${cells[2].textContent},${cells[3].textContent},${cells[4].textContent},${cells[5].textContent}\n`;
+        }
+      }
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'handspeak_users.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+
+    // Print table
+    function printTable() {
+      window.print();
+    }
+
+    // Load users on page load
+    window.addEventListener('load', () => {
+      checkAdminAuth();
+      loadUsers();
+    });
+
+    // Auto-refresh every 30 seconds
+    setInterval(loadUsers, 30000);
+  </script>
+</body>
+</html>
